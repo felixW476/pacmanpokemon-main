@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://8ed3n3eou7ar"]
+
+[ext_resource type="Texture2D" uid="uid://bwh3pnp6rcycn" path="res://Assets/Ghost/Ghost_Body_01.png" id="1_6attn"]
+[ext_resource type="Script" path="res://ghost.gd" id="1_xtt71"]
+[ext_resource type="Texture2D" uid="uid://gcljnvys5tll" path="res://Assets/Ghost/Ghost_Eyes_Down.png" id="2_obmiq"]
+[ext_resource type="Texture2D" uid="uid://k486j4lctjb7" path="res://Assets/Ghost/Ghost_Body_02.png" id="3_obmiq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6attn"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_6attn"]
+resource_name = "walk"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1332),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("1_6attn"), ExtResource("3_obmiq")]
+}
+
+[sub_resource type="Animation" id="Animation_xtt71"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_6attn")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_obmiq"]
+_data = {
+"RESET": SubResource("Animation_xtt71"),
+"walk": SubResource("Animation_6attn")
+}
+
+[node name="Ghosts" type="CharacterBody2D"]
+texture_filter = 1
+script = ExtResource("1_xtt71")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="Body" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_6attn")
+
+[node name="Eyes" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_obmiq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6attn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_obmiq")
+}

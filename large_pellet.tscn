@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4cs533ps426e"]
+
+[ext_resource type="Script" path="res://pellet.gd" id="1_cmu5r"]
+[ext_resource type="Texture2D" uid="uid://b32mlegxp51na" path="res://Assets/Pellet/Pellet_Large.png" id="1_f8j6d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cmu5r"]
+size = Vector2(24, 24)
+
+[node name="Large Pellet" type="Area2D"]
+script = ExtResource("1_cmu5r")
+should_allow_eating_ghost = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_f8j6d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cmu5r")
