@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://l4lm4u0xhxwp"]
+
+[ext_resource type="Script" path="res://Resources/movement_target.gd" id="1_5x8dx"]
+
+[resource]
+script = ExtResource("1_5x8dx")
