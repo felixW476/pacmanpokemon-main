@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+
 @export_enum("blinky", "pinky", "inky", "clyde") var ghost_type: String = "blinky"
 @export var speed: float = 80.0
 
@@ -7,6 +8,7 @@ extends CharacterBody2D
 @onready var eyes: Sprite2D = $Eyes
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var pacman: CharacterBody2D
 
@@ -14,6 +16,10 @@ func _ready():
 	pacman = get_tree().get_first_node_in_group("pacman")
 	apply_color()
 	$AnimationPlayer.play("walk")
+	
+	agent.radius = 12.0  # Adjust this until it stops clipping
+	agent.path_desired_distance = 2.0  # keeps a small buffer from walls
+	collision_shape.shape.radius = 10.0 
 
 func _physics_process(delta: float):
 	if pacman:
@@ -21,10 +27,13 @@ func _physics_process(delta: float):
 	
 	if not agent.is_navigation_finished():
 		var next_point = agent.get_next_path_position()
-		var dir = (next_point - global_position).normalized()
-		velocity = dir * speed
-		move_and_slide()
-		update_eyes(dir)
+		var to_next = next_point - global_position
+		if to_next.length() > 0.1:
+				var dir = to_next.normalized()
+				velocity = dir * speed
+				move_and_slide()
+				update_eyes(dir)
+				
 
 func get_target_position() -> Vector2:
 	match ghost_type:
